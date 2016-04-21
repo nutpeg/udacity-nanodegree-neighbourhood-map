@@ -3,16 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>Neighbourhood Map App</title>
-  <link rel="stylesheet" href="style.css">
-  <script type='text/javascript' src='knockout-3.4.0.js'></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/lib/jquery-2.2.3.min.js"></script>
+  <script src='js/lib/knockout-3.4.0.js'></script>
 </head>
 <body>
 <div class="container">
-  <nav class="menu"></nav>
-  <main class="main">
-    <section class="map"></section>
-    <section class="info"></section>
-  </main>
+  <nav class="sidebar">
+    <div class="search">
+      <input type="search" placeholder="Filter places..."/>
+    </div>
+    <ul>
+      <li>Marker 1</li>
+      <li>Marker 2</li>
+      <li>Marker 3</li>
+      <li>Marker 4</li>
+      <li>Marker 5</li>
+    </ul>
+  </nav>
+  <div class="content">
+    <nav class="top-bar">
+      <div class="icon-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <h1 class="brand">Neibourhood Map: London</h1>
+    </nav>
+    <main>
+      <section class="map">Map here</section>
+      <section class="info">Info here</section>
+    </main>
+  </div>
+  <script src="js/app.js"></script>
 </div>
 </body>
 </html>
