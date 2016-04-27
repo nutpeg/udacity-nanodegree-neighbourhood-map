@@ -1,30 +1,46 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Neighbourhood Map App</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/lib/jquery-2.2.3.min.js"></script>
-  <script src='js/lib/knockout-3.4.0.js'></script>
+  <script src="js/lib/knockout-3.4.0.js"></script>
 </head>
 <body>
 <div class="container">
-  <nav class="sidebar">
-    <h1 class="local-title">Places</h1>
-    <div class="search">
-      <input type="search" placeholder="Filter places..."/>
+  <nav class="sidebar open">
+    <div class="Sidebar-header">
+      <h1 class="sidebar-title">Places</h1>
+      <form data-bind="submit: filterMarkers">
+        <div class="InputAddOn">
+          <input type="text" name="filter" id="filter"
+                 class="InputAddOn-field" placeholder="Filter places"
+                 data-bind="value: filterText">
+          <button type="submit" class="InputAddOn-item">Filter</button>
+        </div>
+      </form>
+      <div class="Filters" data-bind="visible: filterOn">
+        <h6>Filters applied:</h6>
+        <ul class="Filters-FiltersApplied"
+            data-bind="template: { name: 'filters-template', foreach: filters }">
+        </ul>
+      </div>
     </div>
-    <ul>
-      <li>Marker 1</li>
-      <li>Marker 2</li>
-      <li>Marker 3</li>
-      <li>Marker 4</li>
-      <li>Marker 5</li>
+    <ul class="InfoList" data-bind="foreach: filteredMarkers">
+      <li>
+        <a>
+          <span class="InfoList-Item" data-bind="click: $parent.showMarker, text: name"></span>
+          <br>
+          <span class="InfoList-subItem" data-bind="text: type"></span>
+        </a>
+      </li>
     </ul>
   </nav>
-  <div class="content">
+  <div class="content open">
     <nav class="top-bar">
-      <div class="icon-menu">
+      <div class="icon-menu open">
         <span></span>
         <span></span>
         <span></span>
@@ -33,10 +49,16 @@
       <h1 class="brand">Neibourhood Map: London</h1>
     </nav>
     <main>
-      <section class="map">Map here</section>
+      <section class="map"><p data-bind="text: map"></p></section>
       <section class="info">Info here</section>
     </main>
   </div>
+  <script type="text/html" id="filters-template">
+    <li class="FiltersApplied-filter" data-bind="click: $parent.removeFilter">
+      <span data-bind="text: $data"></span>
+      <span class="FiltersApplied-close">&nbsp;x</span>
+    </li>
+  </script>
   <script src="js/app.js"></script>
 </div>
 </body>

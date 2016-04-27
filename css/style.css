@@ -7,24 +7,57 @@
  * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
  */
 
+@font-face {
+  font-family: 'Open Sans';
+  font-style:normal;
+  font-weight:400;
+  src:
+      url('fonts/opensans-regular-webfont-webfont.woff2') format('woff2'),
+      url('fonts/opensans-regular-webfont-webfont.woff') format('woff'),
+      url('fonts/opensans-regular-webfont-webfont.ttf') format('ttf'),
+      url('fonts/opensans-regular-webfont-webfont.eot') format('eot');
+  unicode-range:U+000-5FF;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style:normal;
+  font-weight:700;
+  src:
+      url('fonts/opensans-bold-webfont-webfont.woff2') format('woff2'),
+      url('fonts/opensans-bold-webfont-webfont.woff') format('woff'),
+      url('fonts/opensans-bold-webfont-webfont.ttf') format('ttf'),
+      url('fonts/opensans-bold-webfont-webfont.eot') format('eot');
+  unicode-range:U+000-5FF;
+}
+
 html {
-  font-family: sans-serif; /* 1 */
+  color: #000;
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
+
 /**
  * Remove the margin in all browsers (opinionated).
  */
-
 
 * {
   margin: 0;
   padding: 0;
 }
 
-*, *:before, *:after {
+html {
   box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
 }
 
 /* HTML5 display definitions
@@ -305,9 +338,9 @@ select { /* 1 */
  */
 
 button,
-html [type="button"], /* 1 */
-[type="reset"],
-[type="submit"] {
+html [type='button'], /* 1 */
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button; /* 2 */
 }
 
@@ -316,9 +349,9 @@ html [type="button"], /* 1 */
  */
 
 button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
@@ -328,9 +361,9 @@ button::-moz-focus-inner,
  */
 
 button:-moz-focusring,
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring {
+[type='button']:-moz-focusring,
+[type='reset']:-moz-focusring,
+[type='submit']:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
 
@@ -373,8 +406,8 @@ textarea {
  * 2. Remove the padding in IE 10-.
  */
 
-[type="checkbox"],
-[type="radio"] {
+[type='checkbox'],
+[type='radio'] {
   box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
@@ -383,8 +416,8 @@ textarea {
  * Correct the cursor style of increment and decrement buttons in Chrome.
  */
 
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
   height: auto;
 }
 
@@ -393,7 +426,7 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
@@ -402,8 +435,8 @@ textarea {
  * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
  */
 
-[type="search"]::-webkit-search-cancel-button,
-[type="search"]::-webkit-search-decoration {
+[type='search']::-webkit-search-cancel-button,
+[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
@@ -444,8 +477,9 @@ textarea {
 /* Typography                                                                */
 /* ------------------------------------------------------------------------- */
 
-h1.brand, h1.local-title {
+h1.brand {
   margin: 5px;
+  font-weight: 400;
 }
 
 ul {
@@ -467,11 +501,17 @@ html, body {
   min-height: 100%;
 }
 
+
+/* ------------------------------------------------------------------------- */
+/* Sidebar Menu Styling                                                      */
+/* ------------------------------------------------------------------------- */
+
 .sidebar {
-  width: 220px;
-  height: 100%;
   position: absolute;
-  color: #CFD8DC;;
+  width: 275px;
+  height: 100%;
+  padding: 0px 0px 5px 0px;
+  color: #CFD8DC;
   background-color: #37474f;
   -webkit-transform: translate(-300px, 0);
   -moz-transform: translate(-300px, 0);
@@ -484,6 +524,18 @@ html, body {
   -o-transition: transform 0.3s ease;
   transition: transform 0.3s ease;
   /*order: 1;*/
+  display: flex;
+  flex-direction: column;
+}
+
+.Sidebar-header {
+  padding: 0px 5px 0px 5px;
+}
+
+.sidebar-title {
+  margin: 5px 0px 15px 0px;
+  font-weight: 400;
+  flex-shrink: 0;
 }
 
 .sidebar.open {
@@ -494,6 +546,71 @@ html, body {
   transform: translate(0, 0);
 }
 
+.sidebar li a {
+  position: relative;
+  display: block;
+  padding: 15px 15px 15px 15px;
+  color: #eee;
+  border-bottom: 1px solid #455A64;
+  cursor: pointer;
+}
+
+.sidebar li a:before {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+}
+
+.sidebar li a:hover {
+  background: #546E7A;
+}
+
+.sidebar li a.active {
+  box-shadow: inset 5px 0 0 #5b5, inset 6px 0 0 #222;
+  background: #444;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Filters                                                                   */
+/* ------------------------------------------------------------------------- */
+
+.FiltersApplied-filter {
+  display: inline-block;
+  font-size: 80%;
+  padding: 2px 6px 2px 6px;
+  margin: 0px 1px 3px 1px;
+  border-radius: 3px;
+  color: #37474f;
+  background-color: #CFD8DC;
+  cursor: pointer;
+}
+
+.FiltersApplied-close {
+  color: #78909C;
+}
+
+
+/* ------------------------------------------------------------------------- */
+/* Scrollable Information List                                                           */
+/* ------------------------------------------------------------------------- */
+
+.InfoList {
+  flex-grow: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.InfoList-subItem {
+  color: #78909C;
+  font-size: 80%;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Content Area Styling                                                      */
+/* ------------------------------------------------------------------------- */
+
+
 .content {
   width: auto;
   flex: 1;
@@ -503,30 +620,19 @@ html, body {
 }
 
 .content.open {
-  transform: translate(220px,0);
+  transform: translate(275px,0);
 }
+
+/* ------------------------------------------------------------------------- */
+/* Top Bar Styling                                                           */
+/* ------------------------------------------------------------------------- */
+
 
 .top-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
-
-main {
-  /*display: flex;*/
-}
-
-.map {
-  /*order: 2;*/
-}
-
-.info {
-
-}
-
-/* ------------------------------------------------------------------------- */
-/* Menu button                                                               */
-/* ------------------------------------------------------------------------- */
-
 
 /* Hamburger Icon */
 
@@ -559,7 +665,7 @@ main {
   position: absolute;
   height: 4px;
   width: 100%;
-  background: #1565C0;
+  background: #546E7A;
   border-radius: 4px;
   opacity: 1;
   left: 0;
@@ -616,3 +722,69 @@ main {
   width: 0%;
   left: 50%;
 }
+
+main {
+  /*display: flex;*/
+}
+
+/* ------------------------------------------------------------------------- */
+/* Map Styling                                                               */
+/* ------------------------------------------------------------------------- */
+
+
+.map {
+  /*order: 2;*/
+}
+
+/* ------------------------------------------------------------------------- */
+/* Info Area Styling                                                         */
+/* ------------------------------------------------------------------------- */
+
+
+.info {
+
+}
+
+
+/* ------------------------------------------------------------------------- */
+/* Form Styling                                                              */
+/* ------------------------------------------------------------------------- */
+
+
+.InputAddOn {
+  display: flex;
+  flex-shrink: 0;
+  margin-bottom: 1.5em;
+}
+
+.InputAddOn-field {
+  flex: 1;
+}
+.InputAddOn-field:not(:first-child) {
+  border-left: 0;
+}
+.InputAddOn-field:not(:last-child) {
+  border-right: 0;
+}
+
+.InputAddOn-item {
+  background-color: #CFD8DC;
+  color: #455A64;
+  font: inherit;
+  font-weight: normal;
+}
+
+.InputAddOn-field,
+.InputAddOn-item {
+  border: 1px solid rgba(147, 128, 108, 0.25);
+  padding: 0.5em 0.75em;
+}
+.InputAddOn-field:first-child,
+.InputAddOn-item:first-child {
+  border-radius: 2px 0 0 2px;
+}
+.InputAddOn-field:last-child,
+.InputAddOn-item:last-child {
+  border-radius: 0 2px 2px 0;
+}
+
