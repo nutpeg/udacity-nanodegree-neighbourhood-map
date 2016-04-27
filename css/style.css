@@ -613,8 +613,10 @@ html, body {
 
 .content {
   width: auto;
-  flex: 1;
-  padding: 0px 10px 5px 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0;
   transform: translate(0,0);
   transition: transform .3s;
 }
@@ -630,6 +632,7 @@ html, body {
 
 .top-bar {
   display: flex;
+  flex-grow: 0;
   align-items: center;
   justify-content: space-between;
 }
@@ -724,7 +727,12 @@ html, body {
 }
 
 main {
-  /*display: flex;*/
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -732,8 +740,9 @@ main {
 /* ------------------------------------------------------------------------- */
 
 
-.map {
-  /*order: 2;*/
+#map {
+  height: 100%;
+  flex-grow:1;
 }
 
 /* ------------------------------------------------------------------------- */
