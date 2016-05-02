@@ -9,26 +9,24 @@
 
 @font-face {
   font-family: 'Open Sans';
-  font-style:normal;
-  font-weight:400;
-  src:
-      url('fonts/opensans-regular-webfont-webfont.woff2') format('woff2'),
-      url('fonts/opensans-regular-webfont-webfont.woff') format('woff'),
-      url('fonts/opensans-regular-webfont-webfont.ttf') format('ttf'),
-      url('fonts/opensans-regular-webfont-webfont.eot') format('eot');
-  unicode-range:U+000-5FF;
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/opensans-regular-webfont-webfont.woff2') format('woff2'),
+  url('fonts/opensans-regular-webfont-webfont.woff') format('woff'),
+  url('fonts/opensans-regular-webfont-webfont.ttf') format('ttf'),
+  url('fonts/opensans-regular-webfont-webfont.eot') format('eot');
+  unicode-range: U+000-5FF;
 }
 
 @font-face {
   font-family: 'Open Sans';
-  font-style:normal;
-  font-weight:700;
-  src:
-      url('fonts/opensans-bold-webfont-webfont.woff2') format('woff2'),
-      url('fonts/opensans-bold-webfont-webfont.woff') format('woff'),
-      url('fonts/opensans-bold-webfont-webfont.ttf') format('ttf'),
-      url('fonts/opensans-bold-webfont-webfont.eot') format('eot');
-  unicode-range:U+000-5FF;
+  font-style: normal;
+  font-weight: 700;
+  src: url('fonts/opensans-bold-webfont-webfont.woff2') format('woff2'),
+  url('fonts/opensans-bold-webfont-webfont.woff') format('woff'),
+  url('fonts/opensans-bold-webfont-webfont.ttf') format('ttf'),
+  url('fonts/opensans-bold-webfont-webfont.eot') format('eot');
+  unicode-range: U+000-5FF;
 }
 
 html {
@@ -36,7 +34,6 @@ html {
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
-
 
 /**
  * Remove the margin in all browsers (opinionated).
@@ -463,29 +460,37 @@ textarea {
 /* ************************************************************************* */
 /* ************************************************************************* */
 
-
 /* ---------------------  CUSTOM CSS starts here --------------------------- */
 
-
 /* ************************************************************************* */
 /* ************************************************************************* */
 /* ************************************************************************* */
-
-
 
 /* ------------------------------------------------------------------------- */
 /* Typography                                                                */
 /* ------------------------------------------------------------------------- */
 
-h1.brand {
+h1 {
   margin: 5px;
+  color: #455A64;
+}
+
+h2 {
+  font-size: 1.6em;
+  margin: 5px;
+}
+
+.thin {
   font-weight: 400;
+}
+
+.mr40 {
+  margin-right: 40px;
 }
 
 ul {
   list-style: none;
 }
-
 
 /* ------------------------------------------------------------------------- */
 /* Page Structure                                                            */
@@ -501,23 +506,22 @@ html, body {
   min-height: 100%;
 }
 
-
 /* ------------------------------------------------------------------------- */
 /* Sidebar Menu Styling                                                      */
 /* ------------------------------------------------------------------------- */
 
-.sidebar {
+.Sidebar {
   position: absolute;
   width: 275px;
-  height: 100%;
-  padding: 0px 0px 5px 0px;
+  height: 100vh;
+  padding: 0px 0px 0px 0px;
   color: #CFD8DC;
   background-color: #37474f;
-  -webkit-transform: translate(-300px, 0);
-  -moz-transform: translate(-300px, 0);
-  -ms-transform: translate(-300px, 0);
-  -o-transform: translate(-300px, 0);
-  transform: translate(-300px, 0);
+  -webkit-transform: translate3d(-275px, 0, 0);
+  -moz-transform: translate3d(-275px, 0, 0);
+  -ms-transform: translate3d(-275px, 0, 0);
+  -o-transform: translate3d(-275px, 0, 0);
+  transform: translate3d(-275px, 0);
   -webkit-transition: transform 0.3s ease;
   -moz-transition: transform 0.3s ease;
   -ms-transition: transform 0.3s ease;
@@ -526,27 +530,28 @@ html, body {
   /*order: 1;*/
   display: flex;
   flex-direction: column;
+  /*overflow: hidden;*/
 }
 
 .Sidebar-header {
   padding: 0px 5px 0px 5px;
 }
 
-.sidebar-title {
+.Sidebar-title {
   margin: 5px 0px 15px 0px;
   font-weight: 400;
   flex-shrink: 0;
 }
 
-.sidebar.open {
-  -webkit-transform: translate(0, 0);
-  -moz-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
-  transform: translate(0, 0);
+.Sidebar.open {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
-.sidebar li a {
+.Sidebar li a {
   position: relative;
   display: block;
   padding: 15px 15px 15px 15px;
@@ -555,19 +560,19 @@ html, body {
   cursor: pointer;
 }
 
-.sidebar li a:before {
+.Sidebar li a:before {
   position: absolute;
   top: 14px;
   left: 20px;
 }
 
-.sidebar li a:hover {
+.Sidebar li a:hover {
   background: #546E7A;
 }
 
-.sidebar li a.active {
-  box-shadow: inset 5px 0 0 #5b5, inset 6px 0 0 #222;
-  background: #444;
+.Sidebar li a.active {
+  box-shadow: inset 5px 0 0 #F57C00;
+  background: #546E7A;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -589,18 +594,17 @@ html, body {
   color: #78909C;
 }
 
-
 /* ------------------------------------------------------------------------- */
 /* Scrollable Information List                                                           */
 /* ------------------------------------------------------------------------- */
 
-.InfoList {
+.LocationList {
   flex-grow: 1;
   height: 100%;
   overflow-y: auto;
 }
 
-.InfoList-subItem {
+.LocationList-subItem {
   color: #78909C;
   font-size: 80%;
   font-style: italic;
@@ -610,27 +614,26 @@ html, body {
 /* Content Area Styling                                                      */
 /* ------------------------------------------------------------------------- */
 
-
-.content {
+.Content {
   width: auto;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding: 0;
-  transform: translate(0,0);
-  transition: transform .3s;
+  order: 2;
+  /*transform: translate(0,0);*/
+  /*transition: transform .3s;*/
 }
 
-.content.open {
-  transform: translate(275px,0);
+.Content.open {
+  /*transform: translate(275px,0);*/
 }
 
 /* ------------------------------------------------------------------------- */
 /* Top Bar Styling                                                           */
 /* ------------------------------------------------------------------------- */
 
-
-.top-bar {
+.Top-bar {
   display: flex;
   flex-grow: 0;
   align-items: center;
@@ -656,11 +659,12 @@ html, body {
 }
 
 .icon-menu.open {
-  -webkit-transform: translateX(-50px);
-  -moz-transform: translateX(-50px);
-  -ms-transform: translateX(-50px);
-  -o-transform: translateX(-50px);
-  transform: translateX(-50px);
+  -webkit-transform: translateX(235px);
+  -moz-transform: translateX(235px);
+  -ms-transform: translateX(235px);
+  -o-transform: translateX(235px);
+  transform: translateX(235px);
+  z-index: 2;
 }
 
 .icon-menu span {
@@ -739,26 +743,48 @@ main {
 /* Map Styling                                                               */
 /* ------------------------------------------------------------------------- */
 
-
 #map {
   height: 100%;
-  flex-grow:1;
+  flex-grow: 1;
 }
 
 /* ------------------------------------------------------------------------- */
 /* Info Area Styling                                                         */
 /* ------------------------------------------------------------------------- */
 
-
-.info {
-
+.LocationInfo {
+  color: #455A64;
+  position: absolute;
+  width: 33vw;
+  height: 93vh;
+  transition: .25s ease-in-out;
+  background-color: #fff;
+  left: 276px;
 }
 
+.LocationInfo.open {
+  /*left: 276px;*/
+  -webkit-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  transform: translateY(-93vh);
+}
+
+.Btn-close {
+  background-image: url(../img/close_icon_24x24.svg);
+  cursor: pointer;
+  height: 24px;
+  opacity: 1;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 24px;
+  z-index: 2;
+}
 
 /* ------------------------------------------------------------------------- */
 /* Form Styling                                                              */
 /* ------------------------------------------------------------------------- */
-
 
 .InputAddOn {
   display: flex;
@@ -769,9 +795,11 @@ main {
 .InputAddOn-field {
   flex: 1;
 }
+
 .InputAddOn-field:not(:first-child) {
   border-left: 0;
 }
+
 .InputAddOn-field:not(:last-child) {
   border-right: 0;
 }
@@ -788,10 +816,12 @@ main {
   border: 1px solid rgba(147, 128, 108, 0.25);
   padding: 0.5em 0.75em;
 }
+
 .InputAddOn-field:first-child,
 .InputAddOn-item:first-child {
   border-radius: 2px 0 0 2px;
 }
+
 .InputAddOn-field:last-child,
 .InputAddOn-item:last-child {
   border-radius: 0 2px 2px 0;

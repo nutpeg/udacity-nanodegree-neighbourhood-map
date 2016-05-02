@@ -11,10 +11,26 @@
 </head>
 <body>
 <div class="container">
-  <nav class="sidebar open">
+  <div class="Content" data-bind="css: { open: menuOpen }">
+    <nav class="Top-bar">
+      <div class="icon-menu" data-bind="click: toggleMenuOpen, css: { open: menuOpen }">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <h1 class="thin">Neibourhood Map: London</h1>
+    </nav>
+    <main>
+      <div id="map" data-bind="map: { locations: filteredLocations,
+                                      selectedLocation: selectedLocation }">
+      </div>
+    </main>
+  </div>
+  <nav class="Sidebar" data-bind="css: { open: menuOpen }">
     <div class="Sidebar-header">
-      <h1 class="sidebar-title">Places</h1>
-      <form data-bind="submit: filterMarkers">
+      <h1 class="Sidebar-title">Places</h1>
+      <form data-bind="submit: filterLocations">
         <div class="InputAddOn">
           <input type="text" name="filter" id="filter"
                  class="InputAddOn-field" placeholder="Filter places"
@@ -29,41 +45,36 @@
         </ul>
       </div>
     </div>
-    <ul class="InfoList" data-bind="foreach: filteredMarkers">
+    <ul class="LocationList" data-bind="foreach: filteredLocations">
       <li>
-        <a>
-          <span class="InfoList-Item" data-bind="click: $parent.showMarker, text: name"></span>
+        <a data-bind="click: $parent.toggleSelectedLocation,
+                      css: { active: $parent.selectedLocation().id === id }">
+          <span class="LocationList-Item" data-bind="text: name"></span>
           <br>
-          <span class="InfoList-subItem" data-bind="text: type"></span>
+          <span class="LocationList-subItem" data-bind="text: type"></span>
         </a>
       </li>
     </ul>
+    <section class="LocationInfo" data-bind="css: { open: selectedLocation().id !== null }">
+      <div data-bind="template: { name: 'location-info-template', data: selectedLocation }"></div>
+    </section>
   </nav>
-  <div class="content open">
-    <nav class="top-bar">
-      <div class="icon-menu open">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <h1 class="brand">Neibourhood Map: London</h1>
-    </nav>
-    <main>
-      <div id="map"></div>
-      <!--<section class="info">Info here</section>-->
-    </main>
-  </div>
-  <script type="text/html" id="filters-template">
-    <li class="FiltersApplied-filter" data-bind="click: $parent.removeFilter">
-      <span data-bind="text: $data"></span>
-      <span class="FiltersApplied-close">&nbsp;x</span>
-    </li>
-  </script>
-  <script src="js/map.js"></script>
-  <script src="js/app.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOpZowz_rY9CWpRLYw4RDzFGwvqkfuF5A&callback=initMap"
-          async defer></script>
 </div>
+<script type="text/html" id="filters-template">
+  <li class="FiltersApplied-filter" data-bind="click: $parent.removeFilter">
+    <span data-bind="text: $data"></span>
+    <span class="FiltersApplied-close">&nbsp;x</span>
+  </li>
+</script>
+<script type="text/html" id="location-info-template">
+  <div>
+    <h2 class="thin mr40" data-bind="text: name"></h2>
+    <span class="Btn-close" data-bind="click: $parent.toggleSelectedLocation"></span>
+  </div>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOpZowz_rY9CWpRLYw4RDzFGwvqkfuF5A"></script>
+<script src="js/map.js"></script>
+<script src="js/app.js"></script>
+
 </body>
 </html>
