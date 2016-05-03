@@ -6,29 +6,20 @@ ko.bindingHandlers.map = {
     });
   },
 
-  markers: myApp.markers,
-
   update: function(element, valueAccessor) {
-    var value = valueAccessor();
-    
     // Remove all markers from the map.
     ko.bindingHandlers.map.clearMarkers();
-
-    // Loop through filtered locations to add marker to map
-    // for each.
-    // value.locations() contains all filtered locations.
-    value.locations().forEach(function(location) {
-      var lat = location.lat;
-      var lng = location.lng;
+    // Loop through filtered locations to add marker to map.
+    // `valueAccessor.locations()` contains all filtered locations.
+    valueAccessor().locations().forEach(function(location) {
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat, lng),
+        position: new google.maps.LatLng(location.lat, location.lng),
         map: myApp.map,
         title: location.name
       });
-      
       // Add marker to markers array to enable later removal
       // in `clearMarkers` function.
-      ko.bindingHandlers.map.markers.push({
+      myApp.markers.push({
         marker: marker,
         id: location.id
       });
@@ -36,11 +27,10 @@ ko.bindingHandlers.map = {
   },
 
   clearMarkers: function() {
-    var currentMarkers = ko.bindingHandlers.map.markers;
-    currentMarkers.forEach(function(marker) {
-      return marker.marker.setMap(null);
+    myApp.markers.forEach(function(marker) {
+      marker.marker.setMap(null);
     });
-    currentMarkers = [];
+    myApp.markers = [];
   }
 
 };

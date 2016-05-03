@@ -30,7 +30,7 @@
   <nav class="Sidebar" data-bind="css: { open: menuOpen }">
     <div class="Sidebar-header">
       <h1 class="Sidebar-title">Places</h1>
-      <form data-bind="submit: filterLocations">
+      <form data-bind="submit: addFilter()">
         <div class="InputAddOn">
           <input type="text" name="filter" id="filter"
                  class="InputAddOn-field" placeholder="Filter places"
@@ -47,7 +47,7 @@
     </div>
     <ul class="LocationList" data-bind="foreach: filteredLocations">
       <li>
-        <a data-bind="click: $parent.toggleSelectedLocation,
+        <a data-bind="click: $parent.setLocation,
                       css: { active: $parent.selectedLocation().id === id }">
           <span class="LocationList-Item" data-bind="text: name"></span>
           <br>
@@ -69,7 +69,7 @@
 <script type="text/html" id="location-info-template">
   <div>
     <h2 class="thin mr40" data-bind="text: name"></h2>
-    <span class="Btn-close" data-bind="click: $parent.toggleSelectedLocation"></span>
+    <span class="Btn-close" data-bind="click: $parent.setLocation"></span>
   </div>
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOpZowz_rY9CWpRLYw4RDzFGwvqkfuF5A"></script>

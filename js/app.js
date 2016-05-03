@@ -2,53 +2,40 @@ myApp.ViewModel = function(initData) {
   var self = this;
 
   this.menuOpen = ko.observable(true);
-  this.selectedLocation = ko.observable({ id: null });
-  this.selectedMarker = ko.observable({
-    id: null,
-    marker: null
-  });
-
-  this.selectMarker = ko.computed(function() {
-    var id = self.selectedLocation().id;
-    var markers = myApp.markers;
-
-    if (id !== null) {
-      // Loop through all markers to find match for selectedLocation
-      var chosen = markers.filter(function(marker) {
-        return marker.id === id;
-      });
-      self.selectedMarker(chosen[0]);
-    } else {
-      
-      self.selectedMarker({
-        id: null,
-        marker: null
-      });
-    }
-  });
-  this.filters = ko.observableArray([]);
-  this.filterOn = ko.computed(function() {
-    return (self.filters().length !== 0);
-  });
-  this.filterText = ko.observable('');
-  this.filteredLocations = ko.observableArray(initData);
 
   this.toggleMenuOpen = function() {
     self.menuOpen() ? self.menuOpen(false) : self.menuOpen(true)
   };
 
+  this.selectedLocation = ko.observable({ id: null });
 
-  this.filterLocations = function() {
+  // Set a new `selectedLocation` if clicked for first time, or
+  // unselect existing location if clicked a second time. 
+  this.setLocation = function(location) {
+    var selectedId = self.selectedLocation().id;
+    if (selectedId === location.id) {
+      self.selectedLocation({ id: null });
+    } else {
+      self.selectedLocation(location);
+    }
+  };
+
+  this.filters = ko.observableArray([]);
+
+  this.filterOn = ko.computed(function() {
+    return (self.filters().length !== 0);
+  });
+
+  this.filterText = ko.observable('');
+
+  this.filteredLocations = ko.observableArray(initData);
+
+  // Filter the set of locations based on applied filters.
+  // Use unfiltered set of locations as starting set.
+  this.filterLocations = ko.computed(function() {
     // set filteredLocations to original data
     self.filteredLocations(initData);
-    // add new filter to filters
-    var text = self.filterText().toLowerCase();
-    if (text) {
-      self.addFilter(text);
-    }
     // If filters are present, create a new set of `filteredLocations`
-    // TODO: can this be triggered by subscribing to `filterOn`
-    // using `.extend{notify: 'always'}`?
     if (self.filters().length > 0) {
       self.filters().forEach(function(filter) {
         var newFilteredLocations;
@@ -60,42 +47,70 @@ myApp.ViewModel = function(initData) {
         self.filteredLocations(newFilteredLocations);
       });
     }
-  };
+  });
 
-  this.addFilter = function(text) {
-    if (!self.filterExists(text)) {
+  // Add filter from input field to list of applied location filters.
+  this.addFilter = ko.observable(function() {
+    var text = self.filterText().toLowerCase();
+    if (text && !self.filterExists(text)) {
       self.filters.push(text);
     }
     self.filterText('');
-  };
-
+  });
+  
+  // Check to see if user has input a filter that already exists
   this.filterExists = function(text) {
     return self.filters().includes(text);
   };
 
+  // Remove filter from list of filtered locations and re-filter
+  // locations based on new set of filters.
   this.removeFilter = function(filter) {
     self.filters.remove(filter);
     self.filterLocations();
   };
 
-  this.toggleSelectedLocation = function(location) {
-    var selectedId = self.selectedLocation().id;
-    if (selectedId === location.id) {
-      self.selectedLocation({ id: null });
-    } else {
-      self.selectedLocation(location);
-    }
+  this.nullMarkerObject = {
+    id: null,
+    marker: null
   };
 
-  this.animateMarker = ko.computed(function() {
-    var marker = self.selectedMarker();
-    console.log(marker);
-    if (marker.id === null) {
+  this.selectedMarker = ko.observable(self.nullMarkerObject);
 
+  this.selectMarker = ko.computed(function() {
+    var marker = self.selectedMarker().marker;
+    var id = self.selectedLocation().id;
+    // Cancel existing animation on previously chosen marker
+    if (marker) {
+      marker.setAnimation(null);
+    }
+    // Loop through all markers to find match for selectedLocation
+    if (id !== null) {
+      var chosen = myApp.markers.filter(function(marker) {
+        return marker.id === id;
+      });
+      self.selectedMarker(chosen[0]);
     } else {
-      marker.marker.setAnimation(google.maps.Animation.BOUNCE);
+      // Reset selected marker to 'nothing', i.e. a null marker.
+      self.selectedMarker(self.nullMarkerObject);
     }
   });
+
+  this.startMarkerAnimation = ko.computed(function() {
+    var marker = self.selectedMarker();
+    // Animate the marker and set it to stop animating after 2.8s
+    if (marker.id !== null) {
+      marker.marker.setAnimation(google.maps.Animation.BOUNCE);
+      // stop animation after 2.8s
+      self.stopMarkerAnimation(marker.marker, 2800)
+    }
+  });
+
+  this.stopMarkerAnimation = function(marker, delay) {
+    setTimeout(function() {
+      marker.setAnimation(null);
+    }, delay);
+  };
 
 };
 
