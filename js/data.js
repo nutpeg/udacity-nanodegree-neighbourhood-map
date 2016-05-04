@@ -2,6 +2,13 @@ var myApp = myApp || {};
 
 myApp.markers = [];
 
+myApp.MAP_CENTER = {
+  lat: 51.512019,
+  lng: -0.139382
+};
+
+myApp.MAP_OFFSET = -0.055;
+
 myApp.locationData = [
   {
     name: "Tapas Brindisa Soho",
@@ -44,13 +51,6 @@ myApp.locationData = [
     lat: 51.522504,
     lng: -0.143968,
     id: 6
-  },
-  {
-    name: "Spanish House London",
-    type: "Language school",
-    lat: 51.465480,
-    lng: -0.133181,
-    id: 7
   },
   {
     name: "Vamos Let's Learn Spanish",
@@ -137,3 +137,22 @@ myApp.locationData = [
     id: 19
   }
 ];
+
+myApp.YELP_KEY = 'iCl5menNgm1T2aPhq60wew';
+myApp.YELP_SECRET = 'AXYptHmGw6YGU56tOEWfQN_nlyw';
+myApp.YELP_TOKEN = 'V-M7gr1U6mccxo-4eZODOsh_C56S1coj';
+myApp.YELP_TOKEN_SECRET = 'DJDz3eWxCwzZKGtyENhuPfc9lB4';
+myApp.YELP_
+
+var parameters = {
+      oauth_consumer_key: YELP_KEY,
+      oauth_token: YELP_TOKEN,
+      oauth_nonce: nonce_generate(),
+      oauth_timestamp: Math.floor(Date.now()/1000),
+      oauth_signature_method: 'HMAC-SHA1',
+      oauth_version : '1.0',
+      callback: 'cb'              // This is crucial to include for jsonp implementation in AJAX or else the oauth-signature will be wrong.
+      location = '1032+Castro+Street%2C+Mountain+View',
+    term = 'cafe',
+    cll = '37.385083%2C-122.08460200000002'
+};

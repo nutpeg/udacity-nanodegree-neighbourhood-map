@@ -8,15 +8,26 @@ myApp.ViewModel = function(initData) {
   };
 
   this.selectedLocation = ko.observable({ id: null });
+  
+  this.panMap = function(coords) {
+    myApp.map.panTo(coords)
+  }
 
   // Set a new `selectedLocation` if clicked for first time, or
   // unselect existing location if clicked a second time. 
   this.setLocation = function(location) {
     var selectedId = self.selectedLocation().id;
+    var lat = location.lat;
+    var lng = location.lng;
     if (selectedId === location.id) {
       self.selectedLocation({ id: null });
+      self.panMap(myApp.MAP_CENTER);
     } else {
       self.selectedLocation(location);
+      self.panMap({
+        lat: lat,
+        lng: lng + myApp.MAP_OFFSET
+      });
     }
   };
 
@@ -111,6 +122,8 @@ myApp.ViewModel = function(initData) {
       marker.setAnimation(null);
     }, delay);
   };
+
+  
 
 };
 

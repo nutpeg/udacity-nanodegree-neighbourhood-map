@@ -538,6 +538,7 @@ html, body {
 }
 
 .Sidebar-title {
+  color: #cfd8dc;
   margin: 5px 0px 15px 0px;
   font-weight: 400;
   flex-shrink: 0;
@@ -687,7 +688,7 @@ html, body {
 }
 
 .icon-menu.open span {
-  background: azure;
+  background: #CFD8DC;
   transition: color .3s;
 }
 
@@ -756,7 +757,7 @@ main {
   color: #455A64;
   position: absolute;
   width: 33vw;
-  height: 93vh;
+  height: 93vw;
   transition: .25s ease-in-out;
   background-color: #fff;
   left: 276px;
@@ -764,13 +765,14 @@ main {
 
 .LocationInfo.open {
   /*left: 276px;*/
+
   -webkit-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
   transform: translateY(-93vh);
 }
 
-.Btn-close {
+.LocationInfo.open .Btn-close {
   background-image: url(../img/close_icon_24x24.svg);
   cursor: pointer;
   height: 24px;
