@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Neighbourhood Map App</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/lib/jquery-2.2.3.min.js"></script>
-  <script src="js/lib/knockout-3.4.0.js"></script>
-  <script src="js/data.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -19,7 +17,7 @@
         <span></span>
         <span></span>
       </div>
-      <h1 class="thin">Neibourhood Map: London</h1>
+      <h1 class="Top-bar-title thin">Spain in London</h1>
     </nav>
     <main>
       <div id="map" data-bind="map: { locations: filteredLocations,
@@ -28,6 +26,10 @@
     </main>
   </div>
   <nav class="Sidebar" data-bind="css: { open: menuOpen }">
+    <section class="LocationInfo"
+             data-bind="css: { open: selectedLocation().id() !== null },
+                        template: { name: 'location-info-template', data: selectedLocation }">
+    </section>
     <div class="Sidebar-header">
       <h1 class="Sidebar-title">Places</h1>
       <form data-bind="submit: addFilter()">
@@ -55,9 +57,6 @@
         </a>
       </li>
     </ul>
-    <section class="LocationInfo" data-bind="css: { open: selectedLocation().id !== null }">
-      <div data-bind="template: { name: 'location-info-template', data: selectedLocation }"></div>
-    </section>
   </nav>
 </div>
 <script type="text/html" id="filters-template">
@@ -68,11 +67,70 @@
 </script>
 <script type="text/html" id="location-info-template">
   <div>
-    <h2 class="thin mr40" data-bind="text: name"></h2>
-    <span class="Btn-close" data-bind="click: $parent.setLocation"></span>
+    <header>
+      <h2 class="LocationInfo-heading thin" data-bind="text: name"></h2>
+      <span class="LocationInfo-type" data-bind="text: type"></span>
+      <span class="Btn-close" data-bind="click: $parent.setLocation"></span>
+    </header>
+
+    <div class="LocationInfo-loader" data-bind="ifnot: $parent.ajaxSuccess">
+          <svg viewBox="0 0 32 32" width="32" height="32">
+            <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+          </svg>
+    </div>
+
+    <article data-bind="visible: $parent.ajaxSuccess">
+      <div class="LocationInfo-address" data-bind="foreach: displayAddress">
+        <div class="LocationInfo-addressLine" data-bind="text: $data"></div>
+      </div>
+
+      <div data-bind="ifnot: displayPhone">No information available</div>
+
+      <div data-bind="if: displayPhone">
+        <div class="LocationInfo-phone" data-bind="text: displayPhone"></div>
+
+        <div class="LocationInfo-status LocationInfo-status_open"
+             data-bind="ifnot: isClosed">Open now
+        </div>
+        <div class="LocationInfo-status LocationInfo-status_closed"
+             data-bind="if: isClosed">Closed
+        </div>
+      </div>
+
+      <div class="LocationInfo-noReviews" data-bind="visible: reviewCount() === 0">
+        No reviews
+      </div>
+      <div data-bind="if: reviewCount">
+        <div class="LocationInfo-ratingImage" data-bind="css: $parent.rating">
+        </div>
+        <div class="LocationInfo-reviews">
+          <a class="LocationInfo-yelpLink" data-bind="attr: { href: url }">
+            <span class="LocationInfo-reviewCount" data-bind="text: reviewCount"></span>
+            <img class="LocationInfo-reviewButton" src="img/yelp_review_btn_light.png" alt="See more on yelp">
+          </a>
+        </div>
+        <div class="LocationInfo-reviewMedia">
+          <img class="LocationInfo-snippetImage" data-bind="attr: { src: snippetImageURL }">
+          <div class="LocationInfo-snippetText">
+            <span class="" data-bind="text: snippetText"></span>
+            <a data-bind="attr: { href: url }">
+              <span>more</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
   </div>
 </script>
+<script src="js/lib/jquery-2.2.3.min.js"></script>
+<script src="js/lib/knockout-3.4.0.js"></script>
+<script src="js/data.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOpZowz_rY9CWpRLYw4RDzFGwvqkfuF5A"></script>
+<script src="https://cdn.jsdelivr.net/lodash/4.11.2/lodash.min.js"></script>
+<script src="js/lib/oauth-signature.min.js"></script>
+<script src="js/lib/nonce.js"></script>
+<script src="js/lib/querystring.js"></script>
+<script src="js/request_yelp.js"></script>
 <script src="js/map.js"></script>
 <script src="js/app.js"></script>
 

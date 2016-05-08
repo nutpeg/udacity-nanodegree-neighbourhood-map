@@ -484,8 +484,12 @@ h2 {
   font-weight: 400;
 }
 
-.mr40 {
-  margin-right: 40px;
+.pr40 {
+  padding-right: 40px;
+}
+
+.pl10 {
+  padding-left: 10px;
 }
 
 ul {
@@ -550,6 +554,7 @@ html, body {
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+  z-index: 1;
 }
 
 .Sidebar li a {
@@ -639,6 +644,10 @@ html, body {
   flex-grow: 0;
   align-items: center;
   justify-content: space-between;
+}
+
+.Top-bar-title {
+  margin-right: 15px;
 }
 
 /* Hamburger Icon */
@@ -756,20 +765,32 @@ main {
 .LocationInfo {
   color: #455A64;
   position: absolute;
-  width: 33vw;
-  height: 93vw;
-  transition: .25s ease-in-out;
+  width: 150%;
+  max-width: 500px;
+  height: 93.8vh;
+  bottom: 0;
+  padding: 10px 10px 5px 10px;
+  -webkit-transform: translateX(-500px);
+  -moz-transform: translateX(-500px);
+  -ms-transform: translateX(-500px);
+  -o-transform: translateX(-500px);
+  transform: translateX(-500px);
+  -webkit-transition: transform 0.3s ease;
+  -moz-transition: transform 0.3s ease;
+  -o-transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
   background-color: #fff;
-  left: 276px;
 }
 
 .LocationInfo.open {
-  /*left: 276px;*/
-
+  -webkit-transform: translateX(275px);
+  -moz-transform: translateX(275px);
+  -ms-transform: translateX(275px);
+  -o-transform: translateX(275px);
+  transform: translateX(275px);
   -webkit-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
-  transform: translateY(-93vh);
 }
 
 .LocationInfo.open .Btn-close {
@@ -781,7 +802,208 @@ main {
   right: 5px;
   top: 5px;
   width: 24px;
-  z-index: 2;
+  z-index: 1;
+}
+
+.LocationInfo header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ECEFF1;
+}
+
+.LocationInfo-heading {
+  margin: 0 0 5px 0;
+}
+
+.LocationInfo-type {
+  font-style: italic;
+}
+
+
+.LocationInfo-loader {
+  left: 50%;
+  top: 30%;
+  position: fixed;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.LocationInfo-loader #spinner {
+  box-sizing: border-box;
+  stroke: #F57C00;
+  stroke-width: 3px;
+  -webkit-transform-origin: 50%;
+  transform-origin: 50%;
+  -webkit-animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite;
+  animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(450deg);
+    transform: rotate(450deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(450deg);
+    transform: rotate(450deg);
+  }
+}
+
+@-webkit-keyframes line {
+  0% {
+    stroke-dasharray: 2, 85.964;
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  50% {
+    stroke-dasharray: 65.973, 21.9911;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: 2, 85.964;
+    stroke-dashoffset: -65.973;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes line {
+  0% {
+    stroke-dasharray: 2, 85.964;
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  50% {
+    stroke-dasharray: 65.973, 21.9911;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: 2, 85.964;
+    stroke-dashoffset: -65.973;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}
+
+.LocationInfo-address {
+  font-weight: bold;
+  margin: 20px 0 10px 0;
+}
+
+.LocationInfo-phone {
+  margin-top: 5px;
+}
+
+.LocationInfo-status {
+  margin: 5px 0 5px 0;
+  font-weight: bold;
+  font-size: 80%;
+}
+
+.LocationInfo-status_open {
+  color: #4CAF50;
+}
+
+.LocationInfo-status_closed {
+  color: #D32F2F;
+}
+
+.LocationInfo-ratingImage {
+  width: 165px;
+  height: 29px;
+  margin-top: 10px;
+  background-image: url(../img/stars_map_www.png);
+}
+
+.stars_0 {
+  background-position: 0 0;
+}
+
+.stars_1 {
+  background-position: 0 -36px;
+}
+
+.stars_1point5 {
+  background-position: 0 -72px;
+}
+
+.stars_2 {
+  background-position: 0 -108px;
+}
+
+.stars_2point5 {
+  background-position: 0 -144px;
+}
+
+.stars_3 {
+  background-position: 0 -180px;
+}
+
+.stars_3point5 {
+  background-position: 0 -216px;
+}
+
+.stars_4 {
+  background-position: 0 -252px;
+}
+
+.stars_4point5 {
+  background-position: 0 -288px;
+}
+
+.stars_5 {
+  background-position: 0 -324px;
+}
+
+.LocationInfo-noReviews {
+  margin-top: 30px;
+}
+
+.LocationInfo-reviews {
+  margin-top: 30px;
+}
+
+.LocationInfo-yelpLink {
+  display: flex;
+  flex-direction: row;
+  color: #455A64;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.LocationInfo-reviewCount {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  padding-top: 5px;
+  color: #fff;
+  background-color: #546E7A;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.LocationInfo-reviewButton {
+  margin-left: 10px;
+}
+
+.LocationInfo-reviewMedia {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.LocationInfo-snippetText {
+  padding-left: 10px;
 }
 
 /* ------------------------------------------------------------------------- */
