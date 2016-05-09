@@ -600,6 +600,10 @@ html, body {
   color: #78909C;
 }
 
+.Filters-FiltersApplied {
+  margin-top: 5px;
+}
+
 /* ------------------------------------------------------------------------- */
 /* Scrollable Information List                                                           */
 /* ------------------------------------------------------------------------- */
@@ -818,7 +822,7 @@ main {
   font-style: italic;
 }
 
-
+/* Spinner from Web Fundamentals (see README) */
 .LocationInfo-loader {
   left: 50%;
   top: 30%;
@@ -893,6 +897,14 @@ main {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
   }
+}
+
+.LocationInfo-failureNotice {
+  position: absolute;
+  top: 30%;
+  background-color: #FFCDD2;
+  padding: 5px;
+  margin-right: 10px;
 }
 
 .LocationInfo-address {

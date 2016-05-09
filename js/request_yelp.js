@@ -42,16 +42,16 @@ myApp.request_yelp = function(set_parameters, cbSuccess, cbFailure) {
 
   /* Then we call Yelp's Oauth 1.0a server, and it returns a signature */
   /* Note: This signature is only good for 300 seconds after the oauth_timestamp */
-  var signature = oauthSignature.generate(httpMethod, url, parameters, consumerSecret, tokenSecret, { encodeSignature: false});
+  var signature = oauthSignature.generate(httpMethod,
+      url,
+      parameters,
+      consumerSecret,
+      tokenSecret,
+      { encodeSignature: false}
+  );
 
-  /* We add the signature to the list of paramters */
+  /* We add the signature to the list of parameters */
   parameters.oauth_signature = signature;
-
-  /* Then we turn the paramters object, to a query string */
-  // var paramURL = qs.stringify(parameters);
-
-  /* Add the query string to the url */
-  // var apiURL = url+'?'+paramURL;
 
   /* Set up parameters for ajax call using jQuery.
    * (Thanks to Udacity forums for details on setting cache to true
@@ -63,10 +63,9 @@ myApp.request_yelp = function(set_parameters, cbSuccess, cbFailure) {
     cache: true,                // This is crucial to include as well to prevent jQuery from adding on a cache-buster parameter "_=23489489749837", invalidating our oauth-signature
     dataType: 'jsonp',
     success: cbSuccess,
-    fail: cbFailure
+    error: cbFailure
   };
 
   /* Then use jQuery to make the ajax API Request */
   $.ajax(requestParams);
-
 };

@@ -27,3 +27,7 @@ to generate random strings required for Yelp API calls.
 
 Thanks to [bettiolo](https://github.com/bettiolo/oauth-signature-js/blob/master/dist/oauth-signature.min.js)
 for code to generate OAuth signatures.
+
+### SVG spinner icon and CSS
+
+Thanks to Google Developers [Web Fundamentals](https://developers.google.com/web/fundamentals/getting-started/your-first-progressive-web-app/step-02?hl=en)

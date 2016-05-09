@@ -73,10 +73,14 @@
       <span class="Btn-close" data-bind="click: $parent.setLocation"></span>
     </header>
 
-    <div class="LocationInfo-loader" data-bind="ifnot: $parent.ajaxSuccess">
-          <svg viewBox="0 0 32 32" width="32" height="32">
-            <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
-          </svg>
+    <div class="LocationInfo-loader" data-bind="if: $parent.isLoading">
+      <svg viewBox="0 0 32 32" width="32" height="32">
+        <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+      </svg>
+    </div>
+
+    <div class="LocationInfo-failureNotice" data-bind="visible: $parent.isFailed">
+      There was a problem loading the data. Please try again later
     </div>
 
     <article data-bind="visible: $parent.ajaxSuccess">
@@ -84,33 +88,37 @@
         <div class="LocationInfo-addressLine" data-bind="text: $data"></div>
       </div>
 
-      <div data-bind="ifnot: displayPhone">No information available</div>
+      <div data-bind="ifnot: displayPhone()">No information available</div>
 
-      <div data-bind="if: displayPhone">
+      <div data-bind="if: displayPhone()">
         <div class="LocationInfo-phone" data-bind="text: displayPhone"></div>
 
         <div class="LocationInfo-status LocationInfo-status_open"
-             data-bind="ifnot: isClosed">Open now
+             data-bind="ifnot: isClosed()">Open now
         </div>
         <div class="LocationInfo-status LocationInfo-status_closed"
-             data-bind="if: isClosed">Closed
+             data-bind="if: isClosed()">Closed
         </div>
       </div>
 
       <div class="LocationInfo-noReviews" data-bind="visible: reviewCount() === 0">
         No reviews
       </div>
-      <div data-bind="if: reviewCount">
+      <div data-bind="if: reviewCount()">
         <div class="LocationInfo-ratingImage" data-bind="css: $parent.rating">
         </div>
         <div class="LocationInfo-reviews">
-          <a class="LocationInfo-yelpLink" data-bind="attr: { href: url }">
-            <span class="LocationInfo-reviewCount" data-bind="text: reviewCount"></span>
-            <img class="LocationInfo-reviewButton" src="img/yelp_review_btn_light.png" alt="See more on yelp">
-          </a>
+          <div data-bind="if: url()">
+            <a class="LocationInfo-yelpLink" data-bind="attr: { href: url }">
+              <span class="LocationInfo-reviewCount" data-bind="text: reviewCount"></span>
+              <img class="LocationInfo-reviewButton" src="img/yelp_review_btn_light.png" alt="See more on yelp">
+            </a>
+          </div>
         </div>
         <div class="LocationInfo-reviewMedia">
-          <img class="LocationInfo-snippetImage" data-bind="attr: { src: snippetImageURL }">
+          <div data-bind="if: snippetImageURL()">
+            <img class="LocationInfo-snippetImage" data-bind="attr: { src: snippetImageURL }">
+          </div>
           <div class="LocationInfo-snippetText">
             <span class="" data-bind="text: snippetText"></span>
             <a data-bind="attr: { href: url }">

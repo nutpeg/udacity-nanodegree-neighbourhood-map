@@ -1,3 +1,5 @@
+// Constructor function for a Location object for which each
+// property is observable.
 myApp.Location = function(data) {
   this.id = ko.observable(data.id);
   this.name = ko.observable(data.name);
@@ -15,17 +17,25 @@ myApp.Location = function(data) {
   this.snippetText = ko.observable('');
 };
 
+// Pass initial data into the view model.
 myApp.ViewModel = function(initData) {
   var self = this;
 
+  // Captures state of side menu (open/closed).
+  // Side menu is open on app load.
   this.menuOpen = ko.observable(true);
 
+  // Controls opening and closing of side menu.
   this.toggleMenuOpen = function() {
     self.menuOpen() ? self.menuOpen(false) : self.menuOpen(true)
   };
 
+  // Capture state of callback to external API (Yelp).
   self.ajaxSuccess = ko.observable(false);
+  self.isLoading = ko.observable(false);
 
+  // When no location is selected, `selectedLocation` needs to be
+  // set to a null object, specified here.
   this.nullLocationObject = {
     id: function() {
       return null;
@@ -108,7 +118,9 @@ myApp.ViewModel = function(initData) {
         // Take into account space taken by info pane
         lng: lng + myApp.MAP_OFFSET
       });
-      // fetch yelp data
+      // Turn on loading spinner ready for request
+      self.isLoading(true);
+      // Fetch yelp data
       myApp.request_yelp({
         term: location.name(),
         cll: lat + ',' + lng
@@ -116,9 +128,15 @@ myApp.ViewModel = function(initData) {
     }
   };
 
-
+  // Success callback for call to yelp API.
   this.yelp_success_callback = function(results) {
+    // Set state for tracking success of API call.
+    // This triggers hiding the spinner.
+    self.isLoading(false);
+    // This triggers visibility of the appropriate part of
+    // the info window.
     self.ajaxSuccess(true);
+    // Capture results from API call.
     if (results.businesses[0]) {
       self.selectedLocation().displayAddress(results.businesses[0].location.display_address);
       self.selectedLocation().displayPhone(results.businesses[0].display_phone);
@@ -131,11 +149,23 @@ myApp.ViewModel = function(initData) {
     }
   };
 
+  // Failure callback for call to yelp API.
   this.yelp_failure_callback = function() {
-    console.log('Failed to load');
+    // Need to set both success and failure as Yelp API can 'succeed'
+    // by sending back a JSON response object which specifies the error
+    // made in the call.
+    self.isLoading(false);
     self.ajaxSuccess(false);
   };
 
+  // isFailed set to `true` when no longer loading and call to Yelp API
+  // has returned an error.
+  this.isFailed = ko.computed(function() {
+    return !self.isLoading() && !self.ajaxSuccess();
+  });
+
+  // Use rating from API call (to Yelp) to set appropriate class
+  // for selected location's star rating image.
   this.rating = ko.computed(function() {
     var rating = self.selectedLocation().rating();
     if (rating) {
@@ -143,18 +173,29 @@ myApp.ViewModel = function(initData) {
     }
   });
 
+  // Initialize set of filters.
   this.filters = ko.observableArray([]);
 
+  // Capture state of filters. If any filters have been input, then
+  // this will trigger showing list of applied filters.
   this.filterOn = ko.computed(function() {
     return (self.filters().length !== 0);
   });
 
+  // Capture text from filter input.
   this.filterText = ko.observable('');
 
+  // Initialise set of locations that will correspond to filters
+  // applied.
   this.filteredLocations = ko.observableArray([]);
 
+  // For each filtering operation, start with a clean set of all
+  // locations before filtering.
   this.loadFilteredLocations = function(data) {
+    // Remove all current locations form filtered set.
     self.filteredLocations.removeAll();
+    // Add a new Location object for each location, based on data
+    // passed in (always the original data).
     data.forEach(function(location) {
       self.filteredLocations.push(new myApp.Location(location));
     });
@@ -170,8 +211,12 @@ myApp.ViewModel = function(initData) {
       self.filters().forEach(function(filter) {
         var newFilteredLocations;
         newFilteredLocations = self.filteredLocations().filter(function(location) {
+          // Check filter text is in the location name...
           var inName = location.name().toLowerCase().includes(filter);
+          // ...or is in the location type.
           var inType = location.type().toLowerCase().includes(filter);
+          // If in either the name or the location, keep that location in the
+          // list of filtered locations.
           return inName || inType;
         });
         self.filteredLocations(newFilteredLocations);
@@ -181,10 +226,14 @@ myApp.ViewModel = function(initData) {
 
   // Add filter from input field to list of applied location filters.
   this.addFilter = ko.observable(function() {
+    // Get the filter text from the input control.
     var text = self.filterText().toLowerCase();
+    // If filter has already been applied then don't add it to set of
+    // filters, otherwise do.
     if (text && !self.filterExists(text)) {
       self.filters.push(text);
     }
+    // Remove text from input control.
     self.filterText('');
     // If the location info window is open, close it
     self.selectedLocation(self.nullLocationObject);
@@ -199,22 +248,28 @@ myApp.ViewModel = function(initData) {
   // locations based on new set of filters.
   this.removeFilter = function(filter) {
     self.filters.remove(filter);
+    // Re-filter locations with remaining filters.
     self.filterLocations();
-    // If the location info window is open, close it
+    // If the location info window is open, close it, because the
+    // location may have been filtered out in the latest operation.
     self.selectedLocation(self.nullLocationObject);
   };
 
+  // Initialise null marker object for map markers.
   this.nullMarkerObject = {
     id: null,
     marker: null
   };
 
+  // Initialise selected marker to null object (as no marker
+  // has been selected yet).
   this.selectedMarker = ko.observable(self.nullMarkerObject);
 
+  // Select
   this.selectMarker = ko.computed(function() {
     var marker = self.selectedMarker().marker;
     var id = self.selectedLocation().id();
-    // Cancel existing animation on previously chosen marker
+    // Cancel existing animation (bouncing) on previously chosen marker
     if (marker) {
       marker.setAnimation(null);
     }
@@ -230,6 +285,7 @@ myApp.ViewModel = function(initData) {
     }
   });
 
+  // Animate marker (bouncing).
   this.startMarkerAnimation = ko.computed(function() {
     var marker = self.selectedMarker();
     // Animate the marker and set it to stop animating after 2.8s
@@ -240,15 +296,20 @@ myApp.ViewModel = function(initData) {
     }
   });
 
+  // Stop marker animating after the given delay
   this.stopMarkerAnimation = function(marker, delay) {
     setTimeout(function() {
       marker.setAnimation(null);
     }, delay);
   };
 
-  this.getDistanceFromTop = function(el) {
-    console.log(el.getBoundingClientRect().top);
-  };
+  // When clicking on a marker, the corresponding location in the
+  // side menu list may be below the browser window. Should scroll
+  // into view. But...
+  // ...maybe implement this later?
+  // this.getDistanceFromTop = function(el) {
+  //   console.log(el.getBoundingClientRect().top);
+  // };
 
 };
 
