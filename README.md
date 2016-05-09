@@ -18,6 +18,12 @@ at the start of the app's `style.css` file.
 Thanks to [Jesse Couch](http://codepen.io/designcouch/pen/Atyop) for the 
 hamburger menu icon.
 
+### Yelp API access in `request_yelp.js`
+
+Help from [this blog post](https://arian.io/how-to-use-yelps-api-with-node/) by Arian Faurtosh, 
+and [this thread](https://discussions.udacity.com/t/how-to-make-ajax-request-to-yelp-api/13699/4) 
+from the Udacity forums.
+
 ### Nonce function for Yelp API call
 
 Thanks to abrkn for his [nonce function](https://github.com/abrkn/nonce/blob/master/index.js)
