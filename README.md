@@ -1,6 +1,15 @@
 # udacity-nanodegree-neighbourhood-map
 Project-6a: Neighbourhood Map
 
+## How to run the application
+
+1.  Download or fork the application from: 
+    [the wiredforpictures repo](https://github.com/wiredforpictures/udacity-nanodegree-neighbourhood-map)
+2.  Open index.html to start the app
+3.  Use the filter box to filter list items and map markers. 
+    You can add as many filters as you want.
+4.  Select a list item or map marker to open an info window describing the location.
+
 ## Credits
 
 ### knockoutJS

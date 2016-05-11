@@ -100,7 +100,7 @@ myApp.ViewModel = function(initData) {
     // Click could have been on: 
     // - the list item
     // - the info pane close button
-    // - the corresponding marker
+    // - the corresponding map marker
     if (selectedId === location.id()) {
       // Same location selected again, so reset selectedLocation
       // to the null location object. This will trigger the info pane
@@ -124,7 +124,7 @@ myApp.ViewModel = function(initData) {
       myApp.request_yelp({
         term: location.name(),
         cll: lat + ',' + lng
-      }, self.yelp_success_callback, self.yelp_failure_callback );
+      }, self.yelp_success_callback, self.yelp_failure_callback);
     }
   };
 
@@ -313,6 +313,16 @@ myApp.ViewModel = function(initData) {
 
 };
 
-ko.applyBindings(new myApp.ViewModel(myApp.locationData));
+myApp.vm = new myApp.ViewModel(myApp.locationData);
+
+myApp.mapSuccess = function() {
+  ko.applyBindings(myApp.vm);
+};
+
+myApp.mapFailure = function() {
+  $('.container')
+      .addClass('failure_notice')
+      .text('Sorry, but the Google map failed to load. Please try again later.');
+};
 
 

@@ -510,45 +510,54 @@ html, body {
   min-height: 100%;
 }
 
+.container.failure_notice {
+  justify-content: space-around;
+  top: 30%;
+  left: 40%;
+  min-height: 0;
+  text-align: center;
+  color: #ECEFF1;
+  background-color: #F44336;
+  padding: 10px;
+}
+
 /* ------------------------------------------------------------------------- */
 /* Sidebar Menu Styling                                                      */
 /* ------------------------------------------------------------------------- */
 
-.Sidebar {
+.sidebar {
   position: absolute;
   width: 275px;
   height: 100vh;
-  padding: 0px 0px 0px 0px;
+  padding: 0;
   color: #CFD8DC;
   background-color: #37474f;
   -webkit-transform: translate3d(-275px, 0, 0);
   -moz-transform: translate3d(-275px, 0, 0);
   -ms-transform: translate3d(-275px, 0, 0);
   -o-transform: translate3d(-275px, 0, 0);
-  transform: translate3d(-275px, 0);
+  transform: translate3d(-275px, 0, 0);
   -webkit-transition: transform 0.3s ease;
   -moz-transition: transform 0.3s ease;
   -ms-transition: transform 0.3s ease;
   -o-transition: transform 0.3s ease;
   transition: transform 0.3s ease;
-  /*order: 1;*/
   display: flex;
   flex-direction: column;
-  /*overflow: hidden;*/
 }
 
-.Sidebar-header {
+.sidebar-header {
   padding: 0px 5px 0px 5px;
 }
 
-.Sidebar-title {
+.sidebar-title {
   color: #cfd8dc;
   margin: 5px 0px 15px 0px;
   font-weight: 400;
   flex-shrink: 0;
 }
 
-.Sidebar.open {
+.sidebar.open {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
@@ -557,7 +566,7 @@ html, body {
   z-index: 1;
 }
 
-.Sidebar li a {
+.sidebar li a {
   position: relative;
   display: block;
   padding: 15px 15px 15px 15px;
@@ -566,17 +575,17 @@ html, body {
   cursor: pointer;
 }
 
-.Sidebar li a:before {
+.sidebar li a:before {
   position: absolute;
   top: 14px;
   left: 20px;
 }
 
-.Sidebar li a:hover {
+.sidebar li a:hover {
   background: #546E7A;
 }
 
-.Sidebar li a.active {
+.sidebar li a.active {
   box-shadow: inset 5px 0 0 #F57C00;
   background: #546E7A;
 }
@@ -585,7 +594,7 @@ html, body {
 /* Filters                                                                   */
 /* ------------------------------------------------------------------------- */
 
-.FiltersApplied-filter {
+.filters_applied-filter {
   display: inline-block;
   font-size: 80%;
   padding: 2px 6px 2px 6px;
@@ -596,11 +605,11 @@ html, body {
   cursor: pointer;
 }
 
-.FiltersApplied-close {
+.filters_applied-close {
   color: #78909C;
 }
 
-.Filters-FiltersApplied {
+.filters-filters_applied {
   margin-top: 5px;
 }
 
@@ -608,13 +617,13 @@ html, body {
 /* Scrollable Information List                                                           */
 /* ------------------------------------------------------------------------- */
 
-.LocationList {
+.location_list {
   flex-grow: 1;
   height: 100%;
   overflow-y: auto;
 }
 
-.LocationList-subItem {
+.location_list-sub_item {
   color: #78909C;
   font-size: 80%;
   font-style: italic;
@@ -624,7 +633,7 @@ html, body {
 /* Content Area Styling                                                      */
 /* ------------------------------------------------------------------------- */
 
-.Content {
+.content {
   width: auto;
   display: flex;
   flex-direction: column;
@@ -635,7 +644,7 @@ html, body {
   /*transition: transform .3s;*/
 }
 
-.Content.open {
+.content.open {
   /*transform: translate(275px,0);*/
 }
 
@@ -643,14 +652,14 @@ html, body {
 /* Top Bar Styling                                                           */
 /* ------------------------------------------------------------------------- */
 
-.Top-bar {
+.top-bar {
   display: flex;
   flex-grow: 0;
   align-items: center;
   justify-content: space-between;
 }
 
-.Top-bar-title {
+.top-bar-title {
   margin-right: 15px;
 }
 
@@ -766,7 +775,7 @@ main {
 /* Info Area Styling                                                         */
 /* ------------------------------------------------------------------------- */
 
-.LocationInfo {
+.location_info {
   color: #455A64;
   position: absolute;
   width: 150%;
@@ -786,7 +795,7 @@ main {
   background-color: #fff;
 }
 
-.LocationInfo.open {
+.location_info.open {
   -webkit-transform: translateX(275px);
   -moz-transform: translateX(275px);
   -ms-transform: translateX(275px);
@@ -797,7 +806,7 @@ main {
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.LocationInfo.open .Btn-close {
+.location_info.open .btn-close {
   background-image: url(../img/close_icon_24x24.svg);
   cursor: pointer;
   height: 24px;
@@ -809,21 +818,21 @@ main {
   z-index: 1;
 }
 
-.LocationInfo header {
+.location_info header {
   padding-bottom: 10px;
   border-bottom: 1px solid #ECEFF1;
 }
 
-.LocationInfo-heading {
+.location_info-heading {
   margin: 0 0 5px 0;
 }
 
-.LocationInfo-type {
+.location_info-type {
   font-style: italic;
 }
 
 /* Spinner from Web Fundamentals (see README) */
-.LocationInfo-loader {
+.location_info-loader {
   left: 50%;
   top: 30%;
   position: fixed;
@@ -831,7 +840,7 @@ main {
   transform: translate(-50%, -50%);
 }
 
-.LocationInfo-loader #spinner {
+.location_info-loader #spinner {
   box-sizing: border-box;
   stroke: #F57C00;
   stroke-width: 3px;
@@ -899,38 +908,40 @@ main {
   }
 }
 
-.LocationInfo-failureNotice {
+.location_info-failure_notice {
   position: absolute;
   top: 30%;
-  background-color: #FFCDD2;
-  padding: 5px;
+  color: #ECEFF1;
+  background-color: #F44336;
+  padding: 12px;
+  border-radius: 30px;
   margin-right: 10px;
 }
 
-.LocationInfo-address {
+.location_info-address {
   font-weight: bold;
   margin: 20px 0 10px 0;
 }
 
-.LocationInfo-phone {
+.location_info-phone {
   margin-top: 5px;
 }
 
-.LocationInfo-status {
+.location_info-status {
   margin: 5px 0 5px 0;
   font-weight: bold;
   font-size: 80%;
 }
 
-.LocationInfo-status_open {
+.location_info-status_open {
   color: #4CAF50;
 }
 
-.LocationInfo-status_closed {
+.location_info-status_closed {
   color: #D32F2F;
 }
 
-.LocationInfo-ratingImage {
+.location_info-rating_image {
   width: 165px;
   height: 29px;
   margin-top: 10px;
@@ -977,15 +988,15 @@ main {
   background-position: 0 -324px;
 }
 
-.LocationInfo-noReviews {
+.location_info-no_reviews {
   margin-top: 30px;
 }
 
-.LocationInfo-reviews {
+.location_info-reviews {
   margin-top: 30px;
 }
 
-.LocationInfo-yelpLink {
+.location_info-yelp_link {
   display: flex;
   flex-direction: row;
   color: #455A64;
@@ -993,7 +1004,7 @@ main {
   text-decoration: none;
 }
 
-.LocationInfo-reviewCount {
+.location_info-review_count {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -1004,17 +1015,17 @@ main {
   text-align: center;
 }
 
-.LocationInfo-reviewButton {
+.location_info-review_button {
   margin-left: 10px;
 }
 
-.LocationInfo-reviewMedia {
+.location_info-review_media {
   margin-top: 15px;
   display: flex;
   flex-direction: row;
 }
 
-.LocationInfo-snippetText {
+.location_info-snippet_text {
   padding-left: 10px;
 }
 
@@ -1022,44 +1033,44 @@ main {
 /* Form Styling                                                              */
 /* ------------------------------------------------------------------------- */
 
-.InputAddOn {
+.input_add_on {
   display: flex;
   flex-shrink: 0;
   margin-bottom: 1.5em;
 }
 
-.InputAddOn-field {
+.input_add_on-field {
   flex: 1;
 }
 
-.InputAddOn-field:not(:first-child) {
+.input_add_on-field:not(:first-child) {
   border-left: 0;
 }
 
-.InputAddOn-field:not(:last-child) {
+.input_add_on-field:not(:last-child) {
   border-right: 0;
 }
 
-.InputAddOn-item {
+.input_add_on-item {
   background-color: #CFD8DC;
   color: #455A64;
   font: inherit;
   font-weight: normal;
 }
 
-.InputAddOn-field,
-.InputAddOn-item {
+.input_add_on-field,
+.input_add_on-item {
   border: 1px solid rgba(147, 128, 108, 0.25);
   padding: 0.5em 0.75em;
 }
 
-.InputAddOn-field:first-child,
-.InputAddOn-item:first-child {
+.input_add_on-field:first-child,
+.input_add_on-item:first-child {
   border-radius: 2px 0 0 2px;
 }
 
-.InputAddOn-field:last-child,
-.InputAddOn-item:last-child {
+.input_add_on-field:last-child,
+.input_add_on-item:last-child {
   border-radius: 0 2px 2px 0;
 }
 

@@ -9,15 +9,15 @@
 </head>
 <body>
 <div class="container">
-  <div class="Content" data-bind="css: { open: menuOpen }">
-    <nav class="Top-bar">
+  <div class="content" data-bind="css: { open: menuOpen }">
+    <nav class="top-bar">
       <div class="icon-menu" data-bind="click: toggleMenuOpen, css: { open: menuOpen }">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
       </div>
-      <h1 class="Top-bar-title thin">Spain in London</h1>
+      <h1 class="top-bar-title thin">Spain in London</h1>
     </nav>
     <main>
       <div id="map" data-bind="map: { locations: filteredLocations,
@@ -25,101 +25,104 @@
       </div>
     </main>
   </div>
-  <nav class="Sidebar" data-bind="css: { open: menuOpen }">
-    <section class="LocationInfo"
+  <nav class="sidebar" data-bind="css: { open: menuOpen }">
+    <section class="location_info"
              data-bind="css: { open: selectedLocation().id() !== null },
                         template: { name: 'location-info-template', data: selectedLocation }">
     </section>
-    <div class="Sidebar-header">
-      <h1 class="Sidebar-title">Places</h1>
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">Places</h1>
       <form data-bind="submit: addFilter()">
-        <div class="InputAddOn">
+        <div class="input_add_on">
           <input type="text" name="filter" id="filter"
-                 class="InputAddOn-field" placeholder="Filter places"
+                 class="input_add_on-field" placeholder="Filter places"
                  data-bind="value: filterText">
-          <button type="submit" class="InputAddOn-item">Filter</button>
+          <button type="submit" class="input_add_on-item">Filter</button>
         </div>
       </form>
-      <div class="Filters" data-bind="visible: filterOn">
+      <div class="filters" data-bind="visible: filterOn">
         <h6>Filters applied:</h6>
-        <ul class="Filters-FiltersApplied"
+        <ul class="filters-filters_applied"
             data-bind="template: { name: 'filters-template', foreach: filters }">
         </ul>
       </div>
     </div>
-    <ul class="LocationList" data-bind="foreach: filteredLocations">
+    <ul class="location_list" data-bind="foreach: filteredLocations">
       <li>
         <a data-bind="click: $parent.setLocation,
                       css: { active: $parent.selectedLocation().id === id }">
-          <span class="LocationList-Item" data-bind="text: name"></span>
+          <span class="location_list-item" data-bind="text: name"></span>
           <br>
-          <span class="LocationList-subItem" data-bind="text: type"></span>
+          <span class="location_list-sub_item" data-bind="text: type"></span>
         </a>
       </li>
     </ul>
   </nav>
 </div>
 <script type="text/html" id="filters-template">
-  <li class="FiltersApplied-filter" data-bind="click: $parent.removeFilter">
+  <li class="filters_applied-filter" data-bind="click: $parent.removeFilter">
     <span data-bind="text: $data"></span>
-    <span class="FiltersApplied-close">&nbsp;x</span>
+    <span class="filters_applied-close">&nbsp;x</span>
   </li>
 </script>
 <script type="text/html" id="location-info-template">
   <div>
     <header>
-      <h2 class="LocationInfo-heading thin" data-bind="text: name"></h2>
-      <span class="LocationInfo-type" data-bind="text: type"></span>
-      <span class="Btn-close" data-bind="click: $parent.setLocation"></span>
+      <h2 class="location_info-heading thin" data-bind="text: name"></h2>
+      <span class="location_info-type" data-bind="text: type"></span>
+      <span class="btn-close" data-bind="click: $parent.setLocation"></span>
     </header>
 
-    <div class="LocationInfo-loader" data-bind="if: $parent.isLoading">
+    <div class="location_info-loader" data-bind="if: $parent.isLoading">
       <svg viewBox="0 0 32 32" width="32" height="32">
         <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
       </svg>
     </div>
 
-    <div class="LocationInfo-failureNotice" data-bind="visible: $parent.isFailed">
+    <div class="location_info-failure_notice" data-bind="visible: $parent.isFailed">
       There was a problem loading the data. Please try again later
     </div>
 
     <article data-bind="visible: $parent.ajaxSuccess">
-      <div class="LocationInfo-address" data-bind="foreach: displayAddress">
+      <div class="location_info-address" data-bind="foreach: displayAddress">
         <div class="LocationInfo-addressLine" data-bind="text: $data"></div>
       </div>
 
       <div data-bind="ifnot: displayPhone()">No information available</div>
 
       <div data-bind="if: displayPhone()">
-        <div class="LocationInfo-phone" data-bind="text: displayPhone"></div>
+        <div class="location_info-phone" data-bind="text: displayPhone"></div>
 
-        <div class="LocationInfo-status LocationInfo-status_open"
+        <div class="location_info-status location_info-status_open"
              data-bind="ifnot: isClosed()">Open now
         </div>
-        <div class="LocationInfo-status LocationInfo-status_closed"
+        <div class="location_info-status location_info-status_closed"
              data-bind="if: isClosed()">Closed
         </div>
       </div>
 
-      <div class="LocationInfo-noReviews" data-bind="visible: reviewCount() === 0">
+      <div class="location_info-no_reviews" data-bind="visible: reviewCount() === 0">
         No reviews
       </div>
       <div data-bind="if: reviewCount()">
-        <div class="LocationInfo-ratingImage" data-bind="css: $parent.rating">
+        <div class="location_info-rating_image" data-bind="css: $parent.rating">
         </div>
-        <div class="LocationInfo-reviews">
+        <div class="location_info-reviews">
           <div data-bind="if: url()">
-            <a class="LocationInfo-yelpLink" data-bind="attr: { href: url }">
-              <span class="LocationInfo-reviewCount" data-bind="text: reviewCount"></span>
-              <img class="LocationInfo-reviewButton" src="img/yelp_review_btn_light.png" alt="See more on yelp">
+            <a class="location_info-yelp_link" data-bind="attr: { href: url }">
+              <span class="location_info-review_count"
+                    data-bind="text: reviewCount"></span>
+              <img class="location_info-review_button"
+                   src="img/yelp_review_btn_light.png"
+                   alt="See more on yelp">
             </a>
           </div>
         </div>
-        <div class="LocationInfo-reviewMedia">
+        <div class="location_info-review_media">
           <div data-bind="if: snippetImageURL()">
-            <img class="LocationInfo-snippetImage" data-bind="attr: { src: snippetImageURL }">
+            <img class="location_info-snippet_image" data-bind="attr: { src: snippetImageURL }">
           </div>
-          <div class="LocationInfo-snippetText">
+          <div class="location_info-snippet_text">
             <span class="" data-bind="text: snippetText"></span>
             <a data-bind="attr: { href: url }">
               <span>more</span>
@@ -133,7 +136,6 @@
 <script src="js/lib/jquery-2.2.3.min.js"></script>
 <script src="js/lib/knockout-3.4.0.js"></script>
 <script src="js/data.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOpZowz_rY9CWpRLYw4RDzFGwvqkfuF5A"></script>
 <script src="https://cdn.jsdelivr.net/lodash/4.11.2/lodash.min.js"></script>
 <script src="js/lib/oauth-signature.min.js"></script>
 <script src="js/lib/nonce.js"></script>
@@ -141,6 +143,8 @@
 <script src="js/request_yelp.js"></script>
 <script src="js/map.js"></script>
 <script src="js/app.js"></script>
-
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOpZowz_rY9CWpRLYw4RDzFGwvqkfuF5A&callback=myApp.mapSuccess"
+        onerror="myApp.mapFailure()"></script>
 </body>
 </html>
