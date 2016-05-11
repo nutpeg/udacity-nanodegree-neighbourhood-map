@@ -13,11 +13,11 @@ ko.bindingHandlers.map = {
       // `valueAccessor.locations()` contains all filtered locations.
       valueAccessor().locations().forEach(function(location) {
         var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(location.lat(), location.lng()),
+          position: new google.maps.LatLng(location.lat, location.lng),
           map: myApp.map,
-          title: location.name()
+          title: location.name
         });
-        var contentString = '<h3>' + location.name() + '</h3>' +
+        var contentString = '<h3>' + location.name + '</h3>' +
             '<div>Click marker for more info</div>';
 
         var infoWindow = new google.maps.InfoWindow({
@@ -39,7 +39,7 @@ ko.bindingHandlers.map = {
         // in `clearMarkers` function.
         myApp.markers.push({
           marker: marker,
-          id: location.id()
+          id: location.id
         });
       });
   },

@@ -1,20 +1,20 @@
 // Constructor function for a Location object for which each
 // property is observable.
 myApp.Location = function(data) {
-  this.id = ko.observable(data.id);
-  this.name = ko.observable(data.name);
-  this.type = ko.observable(data.type);
-  this.lat = ko.observable(data.lat);
-  this.lng = ko.observable(data.lng);
-  this.reviewCount = ko.observable(0);
-  this.displayAddress = ko.observable([]);
-  this.displayPhone = ko.observable('');
-  this.url = ko.observable('');
-  this.isClosed = ko.observable(true);
-  this.rating = ko.observable(0);
-  this.reviewCount = ko.observable('');
-  this.snippetImageURL = ko.observable('');
-  this.snippetText = ko.observable('');
+  this.id = data.id;
+  this.name = data.name;
+  this.type = data.type;
+  this.lat = data.lat;
+  this.lng = data.lng;
+  this.reviewCount = null;
+  this.displayAddress = null;
+  this.displayPhone = null;
+  this.url = null;
+  this.isClosed = null;
+  this.rating = null;
+  this.reviewCount = null;
+  this.snippetImageURL = null;
+  this.snippetText = null;
 };
 
 // Pass initial data into the view model.
@@ -37,45 +37,19 @@ myApp.ViewModel = function(initData) {
   // When no location is selected, `selectedLocation` needs to be
   // set to a null object, specified here.
   this.nullLocationObject = {
-    id: function() {
-      return null;
-    },
-    name: function() {
-      return null;
-    },
-    type: function() {
-      return null;
-    },
-    lat: function() {
-      return null;
-    },
-    lng: function() {
-      return null;
-    },
-    displayAddress: function() {
-      return null;
-    },
-    displayPhone: function() {
-      return null
-    },
-    url: function() {
-      return null;
-    },
-    isClosed: function() {
-      return null;
-    },
-    rating: function() {
-      return null
-    },
-    reviewCount: function() {
-      return null
-    },
-    snippetText: function() {
-      return null;
-    },
-    snippetImageURL: function() {
-      return null;
-    }
+    id: null,
+    name: null,
+    type: null,
+    lat: null,
+    lng: null,
+    displayAddress: null,
+    displayPhone: null,
+    url: null,
+    isClosed: null,
+    rating: null,
+    reviewCount: null,
+    snippetText: null,
+    snippetImageURL: null
   };
 
   // `selectedLocation` is initialised. Can be set to a given location by
@@ -91,9 +65,9 @@ myApp.ViewModel = function(initData) {
   // Set a new `selectedLocation` if clicked for first time, or
   // unselect existing location if clicked a second time. 
   this.setLocation = function(location, e) {
-    var selectedId = self.selectedLocation().id();
-    var lat = location.lat();
-    var lng = location.lng();
+    var selectedId = self.selectedLocation().id;
+    var lat = location.lat;
+    var lng = location.lng;
 
     // Check to see if currently selected location is selected again
     // so should be toggled off, which closes the info pane.
@@ -101,7 +75,7 @@ myApp.ViewModel = function(initData) {
     // - the list item
     // - the info pane close button
     // - the corresponding map marker
-    if (selectedId === location.id()) {
+    if (selectedId === location.id) {
       // Same location selected again, so reset selectedLocation
       // to the null location object. This will trigger the info pane
       // to close, and the location to be unselected.
@@ -110,7 +84,6 @@ myApp.ViewModel = function(initData) {
       self.panMap(myApp.MAP_CENTER);
     } else {
       // Different location selected, so update selectedLocation.
-      self.selectedLocation(location);
       self.ajaxSuccess(false);
       // Pan map to center over selected marker.
       self.panMap({
@@ -122,9 +95,10 @@ myApp.ViewModel = function(initData) {
       self.isLoading(true);
       // Fetch yelp data
       myApp.request_yelp({
-        term: location.name(),
+        term: location.name,
         cll: lat + ',' + lng
       }, self.yelp_success_callback, self.yelp_failure_callback);
+      self.selectedLocation(location);
     }
   };
 
@@ -138,15 +112,19 @@ myApp.ViewModel = function(initData) {
     self.ajaxSuccess(true);
     // Capture results from API call.
     if (results.businesses[0]) {
-      self.selectedLocation().displayAddress(results.businesses[0].location.display_address);
-      self.selectedLocation().displayPhone(results.businesses[0].display_phone);
-      self.selectedLocation().url(results.businesses[0].url);
-      self.selectedLocation().isClosed(results.businesses[0].is_closed);
-      self.selectedLocation().rating(results.businesses[0].rating);
-      self.selectedLocation().reviewCount(results.businesses[0].review_count);
-      self.selectedLocation().snippetText(results.businesses[0].snippet_text);
-      self.selectedLocation().snippetImageURL(results.businesses[0].snippet_image_url);
+      self.selectedLocation().displayAddress = results.businesses[0].location.display_address;
+      self.selectedLocation().displayPhone = results.businesses[0].display_phone;
+      self.selectedLocation().url = results.businesses[0].url;
+      self.selectedLocation().isClosed = results.businesses[0].is_closed;
+      self.selectedLocation().rating = results.businesses[0].rating;
+      self.selectedLocation().reviewCount = results.businesses[0].review_count;
+      self.selectedLocation().snippetText = results.businesses[0].snippet_text;
+      self.selectedLocation().snippetImageURL = results.businesses[0].snippet_image_url;
     }
+    // Forced to do this as otherwise selectedLocation observable does
+    // not inform its subscribers that property values have changed
+    // as the values themselves are not observables.
+    self.selectedLocation(self.selectedLocation());
   };
 
   // Failure callback for call to yelp API.
@@ -167,7 +145,7 @@ myApp.ViewModel = function(initData) {
   // Use rating from API call (to Yelp) to set appropriate class
   // for selected location's star rating image.
   this.rating = ko.computed(function() {
-    var rating = self.selectedLocation().rating();
+    var rating = self.selectedLocation().rating;
     if (rating) {
       return 'stars_' + rating.toString().replace('.', 'point');
     }
@@ -212,9 +190,9 @@ myApp.ViewModel = function(initData) {
         var newFilteredLocations;
         newFilteredLocations = self.filteredLocations().filter(function(location) {
           // Check filter text is in the location name...
-          var inName = location.name().toLowerCase().includes(filter);
+          var inName = location.name.toLowerCase().includes(filter);
           // ...or is in the location type.
-          var inType = location.type().toLowerCase().includes(filter);
+          var inType = location.type.toLowerCase().includes(filter);
           // If in either the name or the location, keep that location in the
           // list of filtered locations.
           return inName || inType;
@@ -268,7 +246,7 @@ myApp.ViewModel = function(initData) {
   // Select
   this.selectMarker = ko.computed(function() {
     var marker = self.selectedMarker().marker;
-    var id = self.selectedLocation().id();
+    var id = self.selectedLocation().id;
     // Cancel existing animation (bouncing) on previously chosen marker
     if (marker) {
       marker.setAnimation(null);
